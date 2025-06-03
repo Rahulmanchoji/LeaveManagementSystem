@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using LeaveManagementSystem.Web.Data;
-using LeaveManagementSystem.Web.Models.LeaveTypes;
-using AutoMapper;
+﻿using LeaveManagementSystem.Web.Models.LeaveTypes;
 using LeaveManagementSystem.Web.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagementSystem.Web.Controllers
 {
+    [Authorize(Roles = Roles.Administrator)]
     public class LeaveTypesController(ILeaveTypesService _leaveTypesService) : Controller
     {
         private const string NameExistsValidationMessage = "This leave type already exists in the database";
 
         // GET: LeaveTypes
-        public async Task<IActionResult>Index()
+        public async Task<IActionResult> Index()
         {
             // var data = Select * FROM LeaveTypes
             var viewData = await _leaveTypesService.GetAll();
@@ -29,7 +22,7 @@ namespace LeaveManagementSystem.Web.Controllers
             //    Name = q.Name,
             //    NumberOfDays = q.NumberOfDays,
             //});
-           
+
             //return the view model into a View 
             return View(viewData);
         }
@@ -160,6 +153,6 @@ namespace LeaveManagementSystem.Web.Controllers
         {
             await _leaveTypesService.Remove(id);
             return RedirectToAction(nameof(Index));
-        } 
+        }
     }
 }
