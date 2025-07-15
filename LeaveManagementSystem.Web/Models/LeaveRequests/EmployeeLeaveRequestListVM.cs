@@ -2,7 +2,7 @@
 {
     public class EmployeeLeaveRequestListVM
     {
-        [Display (Name = "Total Number of Days")]
+        [Display (Name = "Total")]
         public int TotalRequests { get; set; }
 
         [Display(Name = "Approved Requests")]

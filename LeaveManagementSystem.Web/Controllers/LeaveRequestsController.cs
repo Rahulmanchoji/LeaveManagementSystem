@@ -66,6 +66,7 @@ public class LeaveRequestsController(ILeaveTypesService _leaveTypesService, ILea
     }
 
     // Admin/Supe review Requests
+    [Authorize(Policy = "AdminSupervisorOnly")]
     public async Task<IActionResult> ListRequests()
     {
         var model = await _leaveRequestsService.AdminGetAllLeaveRequests();
@@ -84,7 +85,7 @@ public class LeaveRequestsController(ILeaveTypesService _leaveTypesService, ILea
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Review(int id, bool approved)
     {
-        _leaveRequestsService.ReviewLeaveRequest(id, approved);
+        await _leaveRequestsService.ReviewLeaveRequest(id, approved);
         return RedirectToAction(nameof(ListRequests));
     }
 }
