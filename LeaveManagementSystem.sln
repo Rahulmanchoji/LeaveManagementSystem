@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveManagementSystem.Web", "LeaveManagementSystem.Web\LeaveManagementSystem.Web.csproj", "{B9740B05-7817-46EB-BED8-84510FA2C74A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveManagementSystem.Common", "LeaveManagementSystem.Common\LeaveManagementSystem.Common.csproj", "{C4E8280A-0DE5-46D3-8C53-98B4418C377A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveManagementSystem.Data", "LeaveManagementSystem.Data\LeaveManagementSystem.Data.csproj", "{06200C08-BE98-4473-9377-5AA1FAA0F773}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveManagementSystem.Application", "LeaveManagementSystem.Application\LeaveManagementSystem.Application.csproj", "{954FA268-8C51-4527-B231-D105527E9F6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{B9740B05-7817-46EB-BED8-84510FA2C74A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9740B05-7817-46EB-BED8-84510FA2C74A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9740B05-7817-46EB-BED8-84510FA2C74A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4E8280A-0DE5-46D3-8C53-98B4418C377A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4E8280A-0DE5-46D3-8C53-98B4418C377A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4E8280A-0DE5-46D3-8C53-98B4418C377A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4E8280A-0DE5-46D3-8C53-98B4418C377A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06200C08-BE98-4473-9377-5AA1FAA0F773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06200C08-BE98-4473-9377-5AA1FAA0F773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06200C08-BE98-4473-9377-5AA1FAA0F773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06200C08-BE98-4473-9377-5AA1FAA0F773}.Release|Any CPU.Build.0 = Release|Any CPU
+		{954FA268-8C51-4527-B231-D105527E9F6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{954FA268-8C51-4527-B231-D105527E9F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954FA268-8C51-4527-B231-D105527E9F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{954FA268-8C51-4527-B231-D105527E9F6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,15 +7,37 @@
     <UserSecretsId>aspnet-LeaveManagementSystem.Web-eebd50ac-727d-4f04-9b87-31fb84b00197</UserSecretsId>
   </PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.16" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.16" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0">
+		<privateAssets>all</privateAssets>
+		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Serilog" Version="4.3.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+		<PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
+	</ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="14.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.16" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.16" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.16" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.16" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.16" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <ProjectReference Include="..\LeaveManagementSystem.Application\LeaveManagementSystem.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Microsoft\AspNetCore\Identity\" />
   </ItemGroup>
 
 </Project>

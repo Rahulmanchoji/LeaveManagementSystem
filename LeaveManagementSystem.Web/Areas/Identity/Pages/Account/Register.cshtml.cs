@@ -2,7 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using LeaveManagementSystem.Web.Services.LeaveAllocations;
+using Azure.Messaging;
+using LeaveManagementSystem.Application.Services.LeaveAllocations;
 using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
@@ -17,6 +18,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         public RegisterModel(
             ILeaveAllocationsService leaveAllocationsService,
@@ -25,7 +27,8 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment hostEnvironment)
         {
             this._leaveAllocationsService = leaveAllocationsService;
             _userManager = userManager;
@@ -35,6 +38,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             this._roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
+            this._hostEnvironment = hostEnvironment;
         }
 
         /// <summary>
@@ -93,14 +97,14 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", 
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
                 MinimumLength = 6)]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", 
-                MinimumLength = 6)]            
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+                MinimumLength = 6)]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
@@ -111,7 +115,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
 
             [Required]
             public string RoleName { get; set; }
-            
+
         }
 
 
@@ -121,10 +125,10 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             var roles = await _roleManager.Roles
                 .Select(q => q.Name)
-                .Where(q => q !=  "Administrator")
+                .Where(q => q != "Administrator")
                 .ToArrayAsync();
-            RoleNames = roles;    
-                
+            RoleNames = roles;
+
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -147,7 +151,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    
+
                     if (Input.RoleName == Roles.Supervisor)
                     {
                         await _userManager.AddToRolesAsync(user, [Roles.Employee, Roles.Supervisor]);
@@ -157,7 +161,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                         await _userManager.AddToRoleAsync(user, Roles.Employee);
                     }
 
-                        var userId = await _userManager.GetUserIdAsync(user);
+                    var userId = await _userManager.GetUserIdAsync(user);
                     await _leaveAllocationsService.AllocateLeave(userId);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -168,8 +172,15 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    //grabing the template
+                    var emailTemplatePath = Path.Combine(_hostEnvironment.WebRootPath, "templates", "email_layout.html");
+                    var template = await System.IO.File.ReadAllTextAsync(emailTemplatePath);
+                    var messageBody = template
+                        .Replace("{UserName}", $"{Input.FirstName} {Input.LastName}")
+                        .Replace("{MessageContent}", $"Please confirm your account by <a href='{HtmlEncoder.
+                        Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email", messageBody);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
